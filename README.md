@@ -20,14 +20,14 @@ Inspired by [Omarchy](https://github.com/basecamp/omarchy) by DHH.
 ### One-liner
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/aerospace-config.git && cd aerospace-config && ./install.sh
+git clone https://github.com/rami-sketch/aerospace-config.git && cd aerospace-config && ./install.sh
 ```
 
 ### Manual
 
 1. Clone this repo:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/aerospace-config.git
+   git clone https://github.com/rami-sketch/aerospace-config.git
    cd aerospace-config
    ```
 
