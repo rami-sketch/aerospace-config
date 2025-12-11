@@ -51,7 +51,6 @@ cp "$SCRIPT_DIR/config/aerospace.toml" ~/.aerospace.toml
 # Create cheatsheet directory and copy files
 echo -e "${CYAN}Installing cheatsheet overlay...${NC}"
 mkdir -p ~/.config/aerospace-cheatsheet
-cp "$SCRIPT_DIR/cheatsheet/cheatsheet.html" ~/.config/aerospace-cheatsheet/
 cp "$SCRIPT_DIR/cheatsheet/overlay.swift" ~/.config/aerospace-cheatsheet/
 cp "$SCRIPT_DIR/cheatsheet/show.sh" ~/.config/aerospace-cheatsheet/
 cp "$SCRIPT_DIR/cheatsheet/hide.sh" ~/.config/aerospace-cheatsheet/
@@ -62,6 +61,40 @@ chmod +x ~/.config/aerospace-cheatsheet/hide.sh
 echo -e "${CYAN}Installing Karabiner rules...${NC}"
 mkdir -p ~/.config/karabiner/assets/complex_modifications
 cp "$SCRIPT_DIR/karabiner/aerospace-cheatsheet.json" ~/.config/karabiner/assets/complex_modifications/
+
+# Theme selection
+echo ""
+echo -e "${CYAN}Choose a theme:${NC}"
+echo ""
+
+themes=()
+i=1
+for theme_file in "$SCRIPT_DIR/themes"/*.conf; do
+    if [[ -f "$theme_file" ]]; then
+        theme_name=$(basename "$theme_file" .conf)
+        display_name=$(grep "^name=" "$theme_file" | cut -d'"' -f2)
+        themes+=("$theme_name")
+        echo "  $i) $theme_name - $display_name"
+        ((i++))
+    fi
+done
+
+echo ""
+read -p "Select theme (1-${#themes[@]}) [default: 1]: " theme_choice
+
+# Default to 1 if empty
+theme_choice=${theme_choice:-1}
+
+# Validate input
+if [[ "$theme_choice" =~ ^[0-9]+$ ]] && [ "$theme_choice" -ge 1 ] && [ "$theme_choice" -le "${#themes[@]}" ]; then
+    selected_theme="${themes[$((theme_choice-1))]}"
+else
+    echo -e "${YELLOW}Invalid choice, using tokyo-night${NC}"
+    selected_theme="tokyo-night"
+fi
+
+echo -e "${CYAN}Applying theme: $selected_theme${NC}"
+"$SCRIPT_DIR/theme.sh" apply "$selected_theme"
 
 # Reload AeroSpace config if running
 if pgrep -x "AeroSpace" > /dev/null; then
@@ -84,5 +117,9 @@ echo "  Workspaces: Opt + 1-9"
 echo "  Float:      Cmd + O"
 echo "  Cheatsheet: Hold Cmd + K"
 echo "  Finder:     Cmd + Shift + F"
+echo ""
+echo -e "${CYAN}Change theme anytime:${NC}"
+echo "  ./theme.sh list          # List themes"
+echo "  ./theme.sh apply <name>  # Apply a theme"
 echo ""
 echo -e "${GREEN}Enjoy your new tiling window manager!${NC}"
