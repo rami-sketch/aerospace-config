@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      background: transparent;
+    }
+    
+    body {
+      font-family: Menlo, Monaco, 'Courier New', monospace;
+      font-size: 13px;
+      color: #a9b1d6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .crt {
+      position: relative;
+    }
+    
+    .terminal {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(145deg, #1a1b26 0%, #13141c 100%);
+      border: 2px solid #9ece6a;
+      border-radius: 12px;
+      padding: 15px 20px;
+      text-shadow: 0 0 2px rgba(125, 207, 255, 0.3);
+      overflow: hidden;
+    }
+    
+    /* CRT Scanlines */
+    .terminal::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.03),
+        rgba(0, 0, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 10;
+      border-radius: 12px;
+    }
+    
+    /* CRT Glow/Vignette */
+    .terminal::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 50%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+      box-shadow: inset 0 0 80px rgba(125, 207, 255, 0.08);
+      pointer-events: none;
+      z-index: 5;
+      border-radius: 12px;
+    }
+    
+    .title {
+      text-align: center;
+      color: #7aa2f7;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(122, 162, 247, 0.5);
+      letter-spacing: 4px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    
+    .section {
+      border: 1px solid #3b4261;
+      border-radius: 4px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .section-title {
+      color: #9ece6a;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+    
+    .row {
+      display: flex;
+      margin-bottom: 4px;
+    }
+    
+    .key {
+      color: #7dcfff;
+      width: 110px;
+      flex-shrink: 0;
+    }
+    
+    .action {
+      color: #a9b1d6;
+    }
+    
+    .divider {
+      border-top: 1px solid #3b4261;
+      margin: 15px 0;
+    }
+    
+    .apps-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .apps-row .section-title {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="crt">
+    <div class="terminal">
+      <div class="title">AEROSPACE</div>
+      
+      <div class="grid">
+        <div class="section">
+          <div class="section-title">FOCUS</div>
+          <div class="row"><span class="key">Opt+A</span><span class="action">left</span></div>
+          <div class="row"><span class="key">Opt+S</span><span class="action">down</span></div>
+          <div class="row"><span class="key">Opt+W</span><span class="action">up</span></div>
+          <div class="row"><span class="key">Opt+D</span><span class="action">right</span></div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">MOVE</div>
+          <div class="row"><span class="key">Opt+Arrow</span><span class="action">left</span></div>
+          <div class="row"><span class="key">Opt+Arrow</span><span class="action">down</span></div>
+          <div class="row"><span class="key">Opt+Arrow</span><span class="action">up</span></div>
+          <div class="row"><span class="key">Opt+Arrow</span><span class="action">right</span></div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">RESIZE</div>
+          <div class="row"><span class="key">Opt+-</span><span class="action">shrink</span></div>
+          <div class="row"><span class="key">Opt+=</span><span class="action">grow</span></div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">WORKSPACES</div>
+          <div class="row"><span class="key">Opt+1-9</span><span class="action">switch</span></div>
+          <div class="row"><span class="key">Opt+Shift+1-9</span><span class="action">move</span></div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">LAYOUTS</div>
+          <div class="row"><span class="key">Opt+/</span><span class="action">h/v tile</span></div>
+          <div class="row"><span class="key">Opt+,</span><span class="action">accordion</span></div>
+          <div class="row"><span class="key">Opt+F</span><span class="action">fullscreen</span></div>
+          <div class="row"><span class="key">Cmd+O</span><span class="action">float</span></div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">GROUPING</div>
+          <div class="row"><span class="key">Opt+V</span><span class="action">join below</span></div>
+          <div class="row"><span class="key">Opt+B</span><span class="action">join right</span></div>
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div class="apps-row">
+        <span class="section-title">APPS</span>
+        <div class="row"><span class="key">Cmd+Shift+F</span><span class="action">finder</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

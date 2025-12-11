@@ -1,0 +1,30 @@
+{
+  "title": "AeroSpace Cheatsheet",
+  "rules": [
+    {
+      "description": "Hold Cmd+K to show AeroSpace cheatsheet",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "mandatory": ["command"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "~/.config/aerospace-cheatsheet/show.sh"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "shell_command": "~/.config/aerospace-cheatsheet/hide.sh"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
